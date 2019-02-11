@@ -11,15 +11,20 @@ function getRepoContributors(repoOwner, repoName, cb) {
     'User-agent': 'request', 'Authorization': `token ${token.GITHUB_TOKEN}`
   }
 };
-  request(options, function(err,result, body) {
-    cb(err,body);
-  })
+  request(options, function(err, result, body) {
+    var json = JSON.parse(body)
+    var contributor = json[0];
+    var avatar = contributor['avatar_url'];
+    json.forEach(function(contributor) {
+      avatar = contributor['avatar_url']
+    cb(err, avatar)
+    })
 
-};
+  });
+}
 
-
-getRepoContributors('isaacsmitty', 'closure', function(err, result) {
-  console.log('Errors::', err);
-  console.log('Result:', result);
+getRepoContributors('jquery', 'jquery', function(err, result) {
+  console.log(err);
+  console.log(result);
 
 });
